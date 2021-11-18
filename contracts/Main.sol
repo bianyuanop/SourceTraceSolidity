@@ -26,16 +26,18 @@ contract Main is AccessControlEnumerable {
         Action[] deliver_chain;
     }
 
-    mapping(address => User) users;
-    mapping(uint256 => Commodity) commodities;
+    mapping(address => User) public users;
+    mapping(uint256 => Commodity) public commodities;
 
     bytes32 constant DELIVER = keccak256("DELIVER");
     bytes32 constant SELLOR = keccak256("SELLOR");
     bytes32 constant PRODUCER = keccak256("PRODUCER");
 
-    Counters.Counter counter;
+    Counters.Counter public counter;
 
-    constructor() {}
+    constructor() {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
 
     function setDeliver(address target) public onlyRole(DEFAULT_ADMIN_ROLE) {
         grantRole(DELIVER, target);
